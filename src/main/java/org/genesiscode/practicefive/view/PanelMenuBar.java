@@ -2,6 +2,7 @@ package org.genesiscode.practicefive.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -17,10 +18,14 @@ public class PanelMenuBar implements EventHandler<ActionEvent> {
     private static final String METHOS_2 = "_Metodo";
 
 
+    private static final String EXERCISES = "Ejercicios";
+    private static final String EXERCISE_A = "Ejercicio a)";
+    private static final String EXERCISE_B = "Ejercicio b)";
+
     private static final int PANEL_TESTS = 1;
 
     private final MenuItem menuItemInverse, menuItemRechazo;
-
+    private final MenuItem menuItemExerciseA, menuItemExerciseB;
 
     private final VBox paneMain;
     private Pane paneBottom;
@@ -30,6 +35,11 @@ public class PanelMenuBar implements EventHandler<ActionEvent> {
     }
 
     public PanelMenuBar() {
+        menuItemExerciseA = new MenuItem(EXERCISE_A);
+        menuItemExerciseA.setOnAction(this);
+        menuItemExerciseB = new MenuItem(EXERCISE_B);
+        menuItemExerciseB.setOnAction(this);
+
         menuItemInverse = new MenuItem(INVERSE);
         menuItemInverse.setOnAction(this);
 
@@ -46,10 +56,10 @@ public class PanelMenuBar implements EventHandler<ActionEvent> {
         menuUniformity.getItems().addAll(menuItemInverse);
 */
 
-        Menu menuIndependence = new Menu(METHOS_2);
-        menuIndependence.getItems().addAll(menuItemRechazo);
+        Menu menu = new Menu(EXERCISES);
+        menu.getItems().addAll(menuItemExerciseA, menuItemExerciseB);
 
-        return new MenuBar(/*menuUniformity, */menuIndependence);
+        return new MenuBar(/*menuUniformity, */menu);
     }
 
     public void setPaneBottom(Pane paneBottom) {
@@ -61,11 +71,12 @@ public class PanelMenuBar implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         MenuItem source = (MenuItem) actionEvent.getSource();
 
-        if (source.equals(menuItemInverse)) {
-            setPaneBottom(null);
+        if (source.equals(menuItemExerciseA)) {
+            setPaneBottom(ExerciseAPane.getInstance().getMainPane());
 
-        } else if (source.equals(menuItemRechazo)) {
-            setPaneBottom(PaneReachMethod.getInstance().getMainPane());
+        } else if (source.equals(menuItemExerciseB)) {
+            setPaneBottom(new VBox(10, new Label("EJERCICIO A)")));
+            //setPaneBottom(PaneReachMethod.getInstance().getMainPane());
         }
     }
 }
